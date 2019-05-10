@@ -1,6 +1,12 @@
+//! The scraper module is meant to centralize
+//! scraping utilities.
+
 use scraper::Html;
 use scraper::Selector;
 
+/// Scrap asnc.cam.ac.uk/personalnames for celtic names
+/// doing some minor cleanup and collecting the names in
+/// a string vector.
 pub fn find_names_in_page() -> Vec<String> {
     let body = reqwest::get("https://www.asnc.cam.ac.uk/personalnames/search.php?s_name=@")
         .expect("Cannot fetch API")
