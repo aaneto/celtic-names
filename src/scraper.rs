@@ -16,13 +16,17 @@ pub fn find_names_in_page() -> Vec<String> {
     let body_document = Html::parse_document(&body);
     let name_selector = Selector::parse("tr td b a").unwrap();
 
-    body_document.select(&name_selector).map(|element| {
-        element
-            .inner_html()
-            .replace("&lt;", "<")
-            .replace("&gt;", ">")
-            .chars()
-            .filter(|c| c.is_alphabetic())
-            .collect()
-    }).collect()
+    body_document
+        .select(&name_selector)
+        .map(|element| {
+            element
+                .inner_html()
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .chars()
+                .filter(|c| c.is_alphabetic())
+                .map(|c| c.to_ascii_lowercase())
+                .collect()
+        })
+        .collect()
 }
