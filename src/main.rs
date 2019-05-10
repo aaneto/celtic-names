@@ -106,7 +106,10 @@ impl MarkovChain {
                 chain.generate_str(name_size)
             },
             MarkovChain::Crate(chain) => {
-                chain.generate().into_iter().collect()
+                let mut characters = chain.generate();
+                characters[0].make_ascii_uppercase();
+
+                characters.into_iter().collect()
             }
         }
     }
