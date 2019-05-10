@@ -12,28 +12,28 @@ fn main() {
             Arg::with_name("number_of_names")
                 .short("n")
                 .long("number_of_names")
-                .help("Set the number of names to generate.")
+                .help("Set the number of names to generate")
                 .takes_value(true)
         )
         .arg(
             Arg::with_name("size_of_names")
                 .short("s")
                 .long("size_of_names")
-                .help("Set the size of the names to generate.")
+                .help("Set the size of the names to generate")
                 .takes_value(true)
         )
         .arg(
             Arg::with_name("chain_size")
                 .short("c")
                 .long("chain_size")
-                .help("Set the order of the markov chain to use on name generation.")
+                .help("Set the order of the markov chain to use on name generation")
                 .takes_value(true)
         )
         .arg(
             Arg::with_name("use_crate_markov")
                 .short("m")
                 .long("use_crate_markov")
-                .help("Check to use the markov crate instead of this tool custom implementation.")
+                .help("Check to use the markov crate instead of this tool custom implementation")
         )
         .get_matches();
     

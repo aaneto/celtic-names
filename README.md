@@ -21,13 +21,13 @@ USAGE:
 
 FLAGS:
     -h, --help                Prints help information
-    -m, --use_crate_markov    Check to use the markov crate instead of this tool custom implementation.
+    -m, --use_crate_markov    Check to use the markov crate instead of this tool custom implementation
     -V, --version             Prints version information
 
 OPTIONS:
-    -c, --chain_size <chain_size>              Set the order of the markov chain to use on name generation.
-    -n, --number_of_names <number_of_names>    Set the number of names to generate.
-    -s, --size_of_names <size_of_names>        Set the size of the names to generate.
+    -c, --chain_size <chain_size>              Set the order of the markov chain to use on name generation
+    -n, --number_of_names <number_of_names>    Set the number of names to generate
+    -s, --size_of_names <size_of_names>        Set the size of the names to generate
 ```
 
 Running the script without parameters will run the defaults:
