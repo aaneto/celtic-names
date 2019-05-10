@@ -1,0 +1,10 @@
+[package]
+name = "celtic_names"
+version = "0.1.0"
+authors = ["Adilson Neto <almeidneto@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+reqwest = "0.9.16"
+scraper = "0.10.0"
+rand = "0.6.5"
