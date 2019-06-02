@@ -5,6 +5,8 @@ the markov chain method.
 The data used to create the markov chain is scrapped from the
 celtic personal names of roman britain, [CPNRB](https://www.asnc.cam.ac.uk/personalnames/)
 
+[![Build Status](https://dev.azure.com/almeidneto/almeidneto/_apis/build/status/aaneto.celtic-names?branchName=master)](https://dev.azure.com/almeidneto/almeidneto/_build/latest?definitionId=1&branchName=master)
+
 ## Using the Script
 
 To get an overview of the parameters, use --help:
