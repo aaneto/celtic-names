@@ -1,0 +1,42 @@
+language: rust
+
+matrix:
+  # TODO These are all the build jobs. Adjust as necessary. Comment out what you
+  # don't need
+  fast_finish: true
+  allow_failures:
+    - rust: nightly
+  include:
+    - rust: stable
+    - rust: nightly
+    - rust: beta
+    - os: osx
+      rust: stable
+    - os: windows
+      rust: stable
+
+script:
+  - cargo build
+  - cargo test
+
+deploy:
+  api_key:
+    secure: "AAAAAAAAAAAAAAA"
+  file_glob: true
+  file: "target/release/.*"
+  on:
+    condition: $TRAVIS_RUST_VERSION = stable
+    tags: true
+  provider: releases
+  skip_cleanup: true
+
+cache: cargo
+before_cache:
+  # Travis can't cache files that are not readable by "others"
+  - chmod -R a+r $HOME/.cargo
+
+branches:
+  only:
+    # release tags
+    - /^v\d+\.\d+\.\d+.*$/
+    - master
