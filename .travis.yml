@@ -52,4 +52,3 @@ deploy:
 branches:
   only:
     - /^v\d+\.\d+\.\d+.*$/
-    - master
