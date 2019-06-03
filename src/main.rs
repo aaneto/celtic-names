@@ -5,7 +5,7 @@ use clap::{Arg, App};
 
 fn main() {
     let matches = App::new("Celtic Markov Names")
-        .version("0.1.1")
+        .version("0.1.2")
         .author("Adilson Neto <almeidneto@gmail.com>")
         .about("Generate a random celtic name using markov chains")
         .arg(
@@ -36,7 +36,7 @@ fn main() {
                 .help("Check to use the markov crate instead of this tool custom implementation")
         )
         .get_matches();
-    
+
     let number_of_names = matches
         .value_of("number_of_names")
         .and_then(|num_string| num_string.parse().ok())
@@ -51,7 +51,7 @@ fn main() {
         .value_of("chain_size")
         .and_then(|chain_string| chain_string.parse().ok())
         .unwrap_or(3);
-    
+
     let use_crate_markov = matches.is_present("use_crate_markov");
 
     println!("Running with parameters: ");
