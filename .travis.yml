@@ -1,0 +1,54 @@
+language: rust
+
+git:
+  depth: 1
+
+env:
+  global:
+    - CRATE_NAME=celtic_names
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rust: nightly
+  include:
+    - rust: nightly
+    - rust: beta
+  
+    - rust: stable
+      before_deploy:
+        - cargo build --release
+        - mv target/release/$CRATE_NAME target/release/linux_$CRATE_NAME
+
+    - os: osx
+      rust: stable
+      before_deploy:
+        - cargo build --release
+        - mv target/release/$CRATE_NAME target/release/osx_$CRATE_NAME
+
+    - os: windows
+      rust: stable
+      before_deploy:
+        - cargo build --release
+        - mv target/release/$CRATE_NAME.exe target/release/win_$CRATE_NAME.exe
+
+script:
+  - cargo build
+  - cargo test
+
+deploy:
+  api_key: $GITHUB_DEPLOY_AUTH
+  file:
+    - target/release/osx_$CRATE_NAME
+    - target/release/win_$CRATE_NAME.exe
+    - target/release/linux_$CRATE_NAME
+  on:
+    condition: $TRAVIS_RUST_VERSION = stable
+    tags: true
+  provider: releases
+  skip_cleanup: true
+
+branches:
+  only:
+    - /^v\d+\.\d+\.\d+.*$/
+    - master
