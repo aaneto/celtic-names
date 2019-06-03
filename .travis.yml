@@ -47,6 +47,7 @@ deploy:
     tags: true
   provider: releases
   skip_cleanup: true
+  name: $TRAVIS_TAG
 
 branches:
   only:
