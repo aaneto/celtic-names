@@ -5,7 +5,7 @@ use clap::{Arg, App};
 
 fn main() {
     let matches = App::new("Celtic Markov Names")
-        .version("0.1.2")
+        .version("0.1.3")
         .author("Adilson Neto <almeidneto@gmail.com>")
         .about("Generate a random celtic name using markov chains")
         .arg(
