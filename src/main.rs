@@ -73,6 +73,8 @@ fn main() {
 
         println!("Name({}): {}", 1 + i, name);
     }
+
+    dont_disappear::any_key_to_continue::default();
 }
 
 enum MarkovChain {
