@@ -6,36 +6,61 @@ git:
 
 env:
   global:
-    - CRATE_NAME=celtic_names
+    - CRATE_NAME=aaaaa
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    - rust: nightly
+services:
+  - docker
+
+stages:
+  - test
+  - test_deploy
+  - deploy
+
+jobs:
   include:
-    - rust: nightly
-    - rust: beta
-  
-    - rust: stable
-      before_deploy:
-        - cargo build --release
-        - mv target/release/$CRATE_NAME target/release/linux_$CRATE_NAME
-
-    - os: osx
+    - stage: test
+      script: cargo test
+      os: osx
+      rust: nightly
+      if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
+    
+    - stage: test
+      script: cargo test
+      os: linux
+      rust: nightly
+      if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
+    
+    - stage: test
+      script: cargo test
+      os: linux
       rust: stable
-      before_deploy:
-        - cargo build --release
-        - mv target/release/$CRATE_NAME target/release/osx_$CRATE_NAME.app
+      if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
 
-script:
-  - cargo build
-  - cargo test
+    - stage: test
+      script: cargo test
+      os: osx
+      rust: stable
+      if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
+
+    - stage: prepare_deploy
+      script:
+        - cargo test --release
+        - mv target/release/$CRATE_NAME $TRAVIS_OS_NAME-$CRATE_NAME
+      os: osx
+      rust: stable
+      if: tag =~ /^v\d+\.\d+\.\d+.*$/
+    
+    - stage: prepare_deploy
+      script:
+        - cargo test --release
+        - mv target/release/$CRATE_NAME $TRAVIS_OS_NAME-$CRATE_NAME
+      os: linux
+      rust: stable
+      if: tag =~ /^v\d+\.\d+\.\d+.*$/
 
 deploy:
   api_key: $GITHUB_DEPLOY_AUTH
-  file:
-    - target/release/osx_$CRATE_NAME.app
-    - target/release/linux_$CRATE_NAME
+  file: $TRAVIS_OS_NAME-$CRATE_NAME
   on:
     condition: $TRAVIS_RUST_VERSION = stable
     tags: true
@@ -43,6 +68,6 @@ deploy:
   skip_cleanup: true
   name: $TRAVIS_TAG
 
-branches:
-  only:
-    - /^v\d+\.\d+\.\d+.*$/
+  branches:
+    only:
+      - /^v\d+\.\d+\.\d+.*$/
