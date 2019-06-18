@@ -13,7 +13,7 @@ To get an overview of the parameters, use --help:
 ```bash
 $ cargo run -- --help
 
-Celtic Markov Names 0.1.0
+Celtic Markov Names 0.1.5
 Adilson Neto <almeidneto@gmail.com>
 Generate a random celtic name using markov chains
 

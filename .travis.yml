@@ -45,7 +45,7 @@ jobs:
     - stage: prepare_deploy
       script:
         - cargo test --release
-        - mv target/release/$CRATE_NAME $TRAVIS_OS_NAME-$CRATE_NAME
+        - mv ./target/release/$CRATE_NAME $TRAVIS_OS_NAME-$CRATE_NAME
       os: osx
       rust: stable
       if: tag =~ /^v\d+\.\d+\.\d+.*$/
@@ -53,7 +53,7 @@ jobs:
     - stage: prepare_deploy
       script:
         - cargo test --release
-        - mv target/release/$CRATE_NAME $TRAVIS_OS_NAME-$CRATE_NAME
+        - mv ./target/release/$CRATE_NAME $TRAVIS_OS_NAME-$CRATE_NAME
       os: linux
       rust: stable
       if: tag =~ /^v\d+\.\d+\.\d+.*$/
