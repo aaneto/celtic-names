@@ -1,0 +1,69 @@
+cache:
+  - c:\cargo\registry
+  - c:\cargo\git
+
+init:
+  - mkdir c:\cargo
+  - mkdir c:\rustup
+  - SET PATH=c:\cargo\bin;%PATH%
+
+clone_folder: c:\projects\celtic-names
+
+environment:
+  CARGO_HOME: "c:\\cargo"
+  RUSTUP_HOME: "c:\\rustup"
+  CARGO_TARGET_DIR: "c:\\projects\\celtic-names\\target"
+  global:
+    PROJECT_NAME: celtic-names
+    RUST_BACKTRACE: full
+  matrix:
+    - TARGET: x86_64-pc-windows-gnu
+      CHANNEL: stable
+      BITS: 64
+      MSYS2: 1
+      OS_NAME: windows-gnu
+    - TARGET: x86_64-pc-windows-msvc
+      CHANNEL: stable
+      BITS: 64
+      OS_NAME: windows-msvc
+matrix:
+  fast_finish: true
+
+# Install Rust and Cargo
+# (Based on from https://github.com/rust-lang/libc/blob/master/appveyor.yml)
+install:
+  - curl -sSf -o rustup-init.exe https://win.rustup.rs/
+  - rustup-init.exe -y --default-host %TARGET%
+  - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
+  - if defined MSYS2 set PATH=C:\msys64\mingw%BITS%\bin;%PATH%
+  - rustc -V
+  - cargo -V
+
+# Hack to work around a harmless warning in Appveyor builds?
+build: false
+
+# Equivalent to Travis' `script` phase
+test_script:
+  - cargo test
+
+before_deploy:
+  # Generate artifacts for release
+  - cargo build --release
+  - mkdir staging
+  - copy target\release\celtic_names.exe staging
+  - cd staging
+  # release zipfile will look like 'celtic_names-1.2.3-x86_64-pc-windows-msvc'
+  - 7z a ../%PROJECT_NAME%-%OS_NAME%.zip *
+  - appveyor PushArtifact ../%PROJECT_NAME%-%OS_NAME%.zip
+
+deploy:
+  description: 'Automatically deployed release'
+  # All the zipped artifacts will be deployed
+  artifact: /.*\.zip/
+  auth_token: $(GITHUB_DEPLOY_KEY)
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  provider: GitHub
+  # deploy when a new tag is pushed and only on the stable channel
+  on:
+    CHANNEL: stable
+    appveyor_repo_tag: true
