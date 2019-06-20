@@ -67,3 +67,8 @@ deploy:
   on:
     CHANNEL: stable
     appveyor_repo_tag: true
+
+branches:
+  only:
+    - /^v\d+\.\d+\.\d+$/
+    - master
