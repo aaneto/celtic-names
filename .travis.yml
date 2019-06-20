@@ -1,6 +1,7 @@
 language: rust
-cache: cargo
-
+cache:
+  directories:
+    - /home/travis/.cargo
 git:
   depth: 1
 
@@ -66,6 +67,9 @@ jobs:
       os: linux
       rust: stable
       if: tag =~ /^v\d+\.\d+\.\d+.*$/
+
+before_cache:
+  - rm -rf /home/travis/.cargo/registry
 
 deploy:
   api_key: $GITHUB_DEPLOY_KEY
