@@ -7,6 +7,8 @@ celtic personal names of roman britain, [CPNRB](https://www.asnc.cam.ac.uk/perso
 
 [![Build Status](https://travis-ci.org/aaneto/celtic-names.svg?branch=master)](https://travis-ci.org/aaneto/celtic-names)
 [![Build status](https://ci.appveyor.com/api/projects/status/9udw29s15m8f3nf0?svg=true)](https://ci.appveyor.com/project/aaneto/celtic-names)
+[![codecov](https://codecov.io/gh/aaneto/celtic-names/branch/master/graph/badge.svg)](https://codecov.io/gh/aaneto/celtic-names)
+
 ## Using the Script
 
 To get an overview of the parameters, use --help:
