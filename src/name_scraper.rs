@@ -18,7 +18,7 @@ pub fn find_names_in_page() -> Vec<String> {
     body_document
         .select(&name_selector)
         .map(|element| {
-                element
+            element
                 .inner_html()
                 .replace("&lt;", "<")
                 .replace("&gt;", ">")

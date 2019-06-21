@@ -1,7 +1,7 @@
 mod markov_chain;
 mod name_scraper;
 
-use clap::{Arg, App};
+use clap::{App, Arg};
 
 fn main() {
     let matches = App::new("Celtic Markov Names")
@@ -13,27 +13,27 @@ fn main() {
                 .short("n")
                 .long("number_of_names")
                 .help("Set the number of names to generate")
-                .takes_value(true)
+                .takes_value(true),
         )
         .arg(
             Arg::with_name("size_of_names")
                 .short("s")
                 .long("size_of_names")
                 .help("Set the size of the names to generate")
-                .takes_value(true)
+                .takes_value(true),
         )
         .arg(
             Arg::with_name("chain_size")
                 .short("c")
                 .long("chain_size")
                 .help("Set the order of the markov chain to use on name generation")
-                .takes_value(true)
+                .takes_value(true),
         )
         .arg(
             Arg::with_name("use_crate_markov")
                 .short("m")
                 .long("use_crate_markov")
-                .help("Check to use the markov crate instead of this tool custom implementation")
+                .help("Check to use the markov crate instead of this tool custom implementation"),
         )
         .get_matches();
 
@@ -62,7 +62,7 @@ fn main() {
 
     let mut chain = MarkovChain::new(use_crate_markov, chain_size);
 
-    println!("");
+    println!();
     println!("Fetching names...");
     for name in name_scraper::find_names_in_page() {
         chain.feed(name);
@@ -95,7 +95,7 @@ impl MarkovChain {
         match self {
             MarkovChain::Custom(chain) => {
                 chain.feed_str(text);
-            },
+            }
             MarkovChain::Crate(chain) => {
                 chain.feed(text.chars().collect());
             }
@@ -104,9 +104,7 @@ impl MarkovChain {
 
     pub fn generate(&self, name_size: usize) -> String {
         match self {
-            MarkovChain::Custom(chain) => {
-                chain.generate_str(name_size)
-            },
+            MarkovChain::Custom(chain) => chain.generate_str(name_size),
             MarkovChain::Crate(chain) => {
                 let mut characters = chain.generate();
                 characters[0].make_ascii_uppercase();

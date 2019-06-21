@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use rand::prelude::*;
 use rand::distributions::WeightedIndex;
+use rand::prelude::*;
 
 /// The MarkovChain of order N is a mapping
 /// from a sequence of tokens to a probability
@@ -48,11 +48,7 @@ impl MarkovChain {
         let mut rng = rand::thread_rng();
 
         while name.len() < size {
-            let word_string: String = name
-                .chars()
-                .skip(name.len() - self.order)
-                .take(3)
-                .collect();
+            let word_string: String = name.chars().skip(name.len() - self.order).take(3).collect();
 
             let word_window = Word::from_str(&word_string);
 
@@ -70,13 +66,16 @@ impl MarkovChain {
             }
         }
 
-        name.chars().enumerate().map(|(i, letter)| {
-            if i == 0 {
-                letter.to_ascii_uppercase()
-            } else {
-                letter
-            }
-        }).collect()
+        name.chars()
+            .enumerate()
+            .map(|(i, letter)| {
+                if i == 0 {
+                    letter.to_ascii_uppercase()
+                } else {
+                    letter
+                }
+            })
+            .collect()
     }
 
     fn pick_random_word(&self) -> String {
@@ -85,10 +84,7 @@ impl MarkovChain {
         let keys: Vec<&Word> = self.transitions.keys().collect();
         let index: usize = rng.gen_range(0, keys.len());
 
-        keys[index]
-            .data
-            .iter()
-            .collect()
+        keys[index].data.iter().collect()
     }
 }
 
@@ -129,7 +125,7 @@ impl Word {
 
     pub fn from_str(text: &str) -> Self {
         Self {
-            data: text.chars().collect()
+            data: text.chars().collect(),
         }
     }
 }

@@ -11,7 +11,7 @@ env:
 
 stages:
   - test
-  - test_deploy
+  - quality_gate
   - deploy
 
 jobs:
@@ -49,6 +49,16 @@ jobs:
       os: osx
       rust: stable
       if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
+    
+    - stage: quality_gate
+      os: linux
+      rust: stable
+      before_script:
+        - rustup component add rustfmt
+        - rustup component add clippy
+      script:
+        - cargo clippy -- -D warnings
+        - cargo fmt --all -- --check
 
     - stage: prepare_deploy
       script:
