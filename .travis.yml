@@ -17,12 +17,6 @@ jobs:
   include:
     - stage: test
       script: cargo test
-      os: osx
-      rust: nightly
-      if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
-    
-    - stage: test
-      script: cargo test
       os: linux
       rust: nightly
       if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
@@ -40,15 +34,12 @@ jobs:
       if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
     
     - stage: code_coverage
-      before_cache: |
-        if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
-          cargo install cargo-tarpaulin -f
-        fi
-      script: |
-        if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
-          cargo tarpaulin --out Xml
-          bash <(curl -s https://codecov.io/bash)
-        fi
+      os: linux
+      rust: stable
+      before_script: cargo install cargo-tarpaulin
+      script:
+        - cargo tarpaulin --out Xml
+        - bash <(curl -s https://codecov.io/bash)
       if: tag =~ /^v\d+\.\d+\.\d+.*$/
 
     - stage: quality_gate
