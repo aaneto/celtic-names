@@ -1,7 +1,5 @@
 language: rust
-cache:
-  directories:
-    - /home/travis/.cargo
+cache: cargo
 git:
   depth: 1
 
@@ -11,6 +9,7 @@ env:
 
 stages:
   - test
+  - code_coverage
   - quality_gate
   - deploy
 
@@ -33,16 +32,6 @@ jobs:
       os: linux
       rust: stable
       if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
-      before_cache: |
-        if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
-          cargo install cargo-tarpaulin -f
-        fi
-      after_success: |
-        if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
-          cargo tarpaulin --out Xml
-          bash <(curl -s https://codecov.io/bash)
-        fi
-
 
     - stage: test
       script: cargo test
@@ -50,6 +39,18 @@ jobs:
       rust: stable
       if: NOT tag =~ /^v\d+\.\d+\.\d+.*$/
     
+    - stage: code_coverage
+      before_cache: |
+        if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
+          cargo install cargo-tarpaulin -f
+        fi
+      script: |
+        if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
+          cargo tarpaulin --out Xml
+          bash <(curl -s https://codecov.io/bash)
+        fi
+      if: tag =~ /^v\d+\.\d+\.\d+.*$/
+
     - stage: quality_gate
       os: linux
       rust: stable
@@ -77,9 +78,6 @@ jobs:
       os: linux
       rust: stable
       if: tag =~ /^v\d+\.\d+\.\d+.*$/
-
-before_cache:
-  - rm -rf /home/travis/.cargo/registry
 
 deploy:
   api_key: $GITHUB_DEPLOY_KEY
