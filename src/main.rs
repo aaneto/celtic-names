@@ -1,4 +1,5 @@
 mod markov_chain;
+mod name_generator;
 mod name_scraper;
 
 use clap::{App, Arg};
@@ -60,16 +61,16 @@ fn main() {
     println!("chain_size: {}", chain_size);
     println!("use_crate_markov: {}", use_crate_markov);
 
-    let mut chain = MarkovChain::new(use_crate_markov, chain_size);
+    let mut generator = new_name_generator(use_crate_markov, chain_size);
 
     println!();
     println!("Fetching names...");
     for name in name_scraper::find_names_in_page() {
-        chain.feed(name);
+        generator.feed(name);
     }
 
     for i in 0..number_of_names {
-        let name = chain.generate(size_of_names);
+        let name = generator.generate(size_of_names);
 
         println!("Name({}): {}", 1 + i, name);
     }
@@ -77,40 +78,13 @@ fn main() {
     dont_disappear::any_key_to_continue::default();
 }
 
-enum MarkovChain {
-    Custom(markov_chain::MarkovChain),
-    Crate(markov::Chain<char>),
-}
-
-impl MarkovChain {
-    pub fn new(use_crate_markov: bool, order: usize) -> Self {
-        if use_crate_markov {
-            MarkovChain::Crate(markov::Chain::of_order(order))
-        } else {
-            MarkovChain::Custom(markov_chain::MarkovChain::new(order))
-        }
-    }
-
-    pub fn feed(&mut self, text: String) {
-        match self {
-            MarkovChain::Custom(chain) => {
-                chain.feed_str(text);
-            }
-            MarkovChain::Crate(chain) => {
-                chain.feed(text.chars().collect());
-            }
-        }
-    }
-
-    pub fn generate(&self, name_size: usize) -> String {
-        match self {
-            MarkovChain::Custom(chain) => chain.generate_str(name_size),
-            MarkovChain::Crate(chain) => {
-                let mut characters = chain.generate();
-                characters[0].make_ascii_uppercase();
-
-                characters.into_iter().collect()
-            }
-        }
+fn new_name_generator(
+    use_crate_markov: bool,
+    order: usize,
+) -> Box<dyn name_generator::NameGenerator> {
+    if use_crate_markov {
+        Box::new(markov::Chain::of_order(order))
+    } else {
+        Box::new(markov_chain::MarkovChain::new(order))
     }
 }
