@@ -30,3 +30,49 @@ impl NameGenerator for markov::Chain<char> {
         characters.into_iter().take(name_size).collect()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_custom_markov() {
+        let mut boxed_markov = markov::Chain::new();
+
+        let name_generator: &mut NameGenerator = &mut boxed_markov as &mut NameGenerator;
+        name_generator.feed("aabdc".to_string());
+
+        let mut markov = markov::Chain::new();
+        markov.feed("aabdc".chars().collect());
+
+        let name_size = 4;
+
+        let first_name = name_generator.generate(name_size);
+        let second_name: String = markov.generate().into_iter().take(name_size).collect();
+
+        assert_eq!(boxed_markov, markov);
+        // Names are random, just assert they at least have the same length
+        assert_eq!(first_name.len(), second_name.len());
+    }
+
+    #[test]
+    fn test_crate_markov() {
+        let arbitrary_markov_order = 3;
+        let mut boxed_markov = markov_chain::MarkovChain::new(arbitrary_markov_order);
+
+        let name_generator: &mut NameGenerator = &mut boxed_markov as &mut NameGenerator;
+        name_generator.feed("aabdc".to_string());
+
+        let mut markov = markov_chain::MarkovChain::new(3);
+        markov.feed("aabdc".to_string());
+
+        let name_size = 4;
+
+        let first_name = name_generator.generate(name_size);
+        let second_name: String = markov.generate_str(name_size);
+
+        assert_eq!(boxed_markov, markov);
+        // Names are random, just assert they at least have the same length
+        assert_eq!(first_name.len(), second_name.len());
+    }
+}
