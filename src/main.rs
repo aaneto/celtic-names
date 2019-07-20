@@ -65,14 +65,19 @@ fn main() {
 
     println!();
     println!("Fetching names...");
-    for name in name_scraper::find_names_in_page() {
-        generator.feed(name);
-    }
 
-    for i in 0..number_of_names {
-        let name = generator.generate(size_of_names);
+    if let Some(names) = name_scraper::find_names_in_page() {
+        for name in names {
+            generator.feed(name);
+        }
 
-        println!("Name({}): {}", 1 + i, name);
+        for i in 0..number_of_names {
+            let name = generator.generate(size_of_names);
+
+            println!("Name({}): {}", 1 + i, name);
+        }
+    } else {
+        println!("Could not fetch and scrap names at www.asnc.cam.ac.uk!");
     }
 
     dont_disappear::any_key_to_continue::default();
