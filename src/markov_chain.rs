@@ -172,3 +172,66 @@ impl ValueFrequency {
         self.data.iter().map(|(letter, _)| *letter).collect()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Write;
+
+    #[test]
+    fn test_text_generation() {
+        let mut markov_chain = MarkovChain::new(2);
+        markov_chain.feed_str("abab");
+        let text_size = 10;
+        let random_text = markov_chain.generate_str(text_size);
+
+        // The name is random we just assert it is of the right size
+        assert_eq!(random_text.len(), text_size);
+    }
+
+    #[test]
+    fn test_random_word() {
+        let mut markov_chain = MarkovChain::new(2);
+        markov_chain.feed_str("aaaa");
+
+        let a_word = markov_chain.pick_random_word();
+
+        assert_eq!(a_word, "aa");
+    }
+
+    #[test]
+    fn test_markov_chain_display() {
+        let mut markov_chain = MarkovChain::new(1);
+        markov_chain.feed_str("aaab");
+        let mut buffer = Vec::new();
+
+        writeln!(&mut buffer, "{}", markov_chain).unwrap();
+
+        let display_text: String = String::from_utf8(buffer).unwrap();
+        let expected_output = "a: \n\ta => 2\n\tb => 1\n\n\n";
+
+        assert_eq!(display_text, expected_output.to_string())
+    }
+
+    #[test]
+    fn test_word() {
+        let word_from_str = Word::from_str("abcdee");
+        let word_from_slice = Word::from_char_slice(&['a', 'b', 'c', 'd', 'e', 'e']);
+
+        assert_eq!(word_from_slice, word_from_str);
+    }
+
+    #[test]
+    fn test_value_frequency() {
+        let mut value_freq = ValueFrequency::new();
+
+        for chr in vec!['a', 'a', 'v', 'b', 'b', 'c', 'd'] {
+            value_freq.insert(chr);
+        }
+
+        value_freq.sort();
+
+        assert_eq!(value_freq.get_letters(), vec!['a', 'b', 'v', 'c', 'd']);
+        assert_eq!(value_freq.get_weights(), vec![2, 2, 1, 1, 1]);
+    }
+}
