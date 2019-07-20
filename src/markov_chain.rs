@@ -6,6 +6,7 @@ use rand::prelude::*;
 /// The MarkovChain of order N is a mapping
 /// from a sequence of tokens to a probability
 /// map over multiple possible tokens.
+#[derive(Debug, PartialEq, Eq)]
 pub struct MarkovChain {
     order: usize,
     transitions: HashMap<Word, ValueFrequency>,
@@ -111,7 +112,7 @@ impl std::fmt::Display for MarkovChain {
 
 /// The word is a slice of a character with
 /// some logic.
-#[derive(PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub struct Word {
     pub data: Vec<char>,
 }
@@ -134,6 +135,7 @@ impl Word {
 /// containing all the possible values
 /// of a word mapping with their respective
 /// count.
+#[derive(Debug, PartialEq, Eq)]
 pub struct ValueFrequency {
     data: Vec<(char, usize)>,
 }
