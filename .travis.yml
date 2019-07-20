@@ -36,7 +36,7 @@ jobs:
     - stage: code_coverage
       os: linux
       rust: stable
-      before_script: cargo install cargo-tarpaulin
+      before_script: cargo install cargo-tarpaulin --force
       script:
         - cargo tarpaulin --out Xml
         - bash <(curl -s https://codecov.io/bash)
