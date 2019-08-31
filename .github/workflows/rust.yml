@@ -1,0 +1,30 @@
+name: Rust
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Tools
+      run:
+        - rustup component add rustfmt
+        - rustup component add clippy
+        - cargo install cargo-tarpaulin --force
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Run linter
+      run: cargo clippy -- -D warnings
+    - name: Run formatter
+      run: cargo fmt --all -- --check
+    - name:
+      run:
+        - cargo tarpaulin --out Xml
+        - bash <(curl -s https://codecov.io/bash)
