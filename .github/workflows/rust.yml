@@ -5,27 +5,42 @@ on:
     branches: master
 
 jobs:
-  build:
-
+  linter:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
+
     - name: Install rustfmt
       run: rustup component add rustfmt
-    - name: Install Clippy
-      run: rustup component add clippy
-    - name: Install Tarpaulin
-      run: cargo install cargo-tarpaulin --force
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
-    - name: Run linter
-      run: cargo clippy -- -D warnings
-    - name: Run formatter
+    
+    - name: Run rustfmt lint
       run: cargo fmt --all -- --check
-    - name:
+  
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install coverage tool
+      run: cargo install cargo-tarpaulin --force
+
+    - name: Build project
+      run: cargo build --verbose
+    
+    - name: Run tests
       env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: cargo tarpaulin --out Xml && bash <(curl -s https://codecov.io/bash)
+  
+  clippy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install clippy
+      run: rustup component add clippy
+    
+    - name: Run clippy
+      run: cargo clippy -- -D warnings
