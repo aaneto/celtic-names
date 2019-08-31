@@ -11,11 +11,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install Tools
-      run:
-        - rustup component add rustfmt
-        - rustup component add clippy
-        - cargo install cargo-tarpaulin --force
+    - name: Install rustfmt
+      run: rustup component add rustfmt
+    - name: Install Clippy
+      run: rustup component add clippy
+    - name: Install Tarpaulin
+      run: cargo install cargo-tarpaulin --force
     - name: Build
       run: cargo build --verbose
     - name: Run tests
