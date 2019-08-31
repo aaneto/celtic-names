@@ -26,6 +26,4 @@ jobs:
     - name: Run formatter
       run: cargo fmt --all -- --check
     - name:
-      run:
-        - cargo tarpaulin --out Xml
-        - bash <(curl -s https://codecov.io/bash)
+      run: cargo tarpaulin --out Xml && bash <(curl -s https://codecov.io/bash)
