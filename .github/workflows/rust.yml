@@ -26,4 +26,6 @@ jobs:
     - name: Run formatter
       run: cargo fmt --all -- --check
     - name:
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: cargo tarpaulin --out Xml && bash <(curl -s https://codecov.io/bash)
