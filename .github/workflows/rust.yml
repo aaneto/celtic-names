@@ -10,6 +10,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
 
     - name: Install rustfmt
       run: rustup component add rustfmt
@@ -22,6 +25,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
 
     - name: Install coverage tool
       run: cargo install cargo-tarpaulin --force
@@ -39,6 +45,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+        
     - name: Install clippy
       run: rustup component add clippy
     
