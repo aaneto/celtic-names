@@ -6,7 +6,7 @@ The data used to create the markov chain is scrapped from the
 celtic personal names of roman britain, [CPNRB](https://www.asnc.cam.ac.uk/personalnames/)
 
 ![build status](https://action-badges.now.sh/aaneto/celtic-names)
-![codecov](https://codecov.io/gh/aaneto/celtic-names/branch/master/graph/badge.svg)](https://codecov.io/gh/aaneto/celtic-names)
+[![codecov](https://codecov.io/gh/aaneto/celtic-names/branch/master/graph/badge.svg)](https://codecov.io/gh/aaneto/celtic-names)
 
 ## Using the Script
 
