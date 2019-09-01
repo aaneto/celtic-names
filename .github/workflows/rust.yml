@@ -20,6 +20,34 @@ jobs:
     - name: Run rustfmt lint
       run: cargo fmt --all -- --check
   
+  windows-test:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+    
+    - name: Build project
+      run: cargo build --verbose
+    
+    - name: Test project
+      run: cargo test --verbose
+  
+  macos-test:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+    
+    - name: Build project
+      run: cargo build --verbose
+    
+    - name: Test project
+      run: cargo test --verbose
+  
   test:
     runs-on: ubuntu-latest
 
@@ -48,7 +76,7 @@ jobs:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: stable
-        
+
     - name: Install clippy
       run: rustup component add clippy
     
