@@ -5,16 +5,39 @@ on:
     tags:
 
 jobs:
+  upload-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+
+    - name: Install coverage tool
+      run: cargo install cargo-tarpaulin --force
+
+    - name: Build project
+      run: cargo build --verbose
+    
+    - name: Run tests
+      env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: cargo tarpaulin --out Xml && bash <(curl -s https://codecov.io/bash)
+
   publish-ubuntu:
     name: Publish for ubuntu
     runs-on: ubuntu-latest
+    
     steps:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: stable
+
     - uses: actions/checkout@v1
     - name: Build
       run: cargo build --release
+
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v1-release
       with:
@@ -26,13 +49,17 @@ jobs:
   publish-windows:
     name: Publish for windows
     runs-on: windows-latest
+
     steps:
     - uses: hecrj/setup-rust-action@master
       with:
         rust-version: stable
+
     - uses: actions/checkout@v1
+
     - name: Build
       run: cargo build --release
+
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v1-release
       with:
