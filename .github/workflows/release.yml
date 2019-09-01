@@ -1,32 +1,11 @@
-name: Publish
+name: Release
 
 on:
   create:
     tags:
 
 jobs:
-  upload-coverage:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - uses: hecrj/setup-rust-action@master
-      with:
-        rust-version: stable
-
-    - name: Install coverage tool
-      run: cargo install cargo-tarpaulin --force
-
-    - name: Build project
-      run: cargo build --verbose
-    
-    - name: Run tests
-      env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: cargo tarpaulin --out Xml && bash <(curl -s https://codecov.io/bash)
-
-  publish-ubuntu:
-    name: Publish for ubuntu
+  release-ubuntu:
     runs-on: ubuntu-latest
     
     steps:
@@ -46,8 +25,7 @@ jobs:
         asset_name: ubuntu-celtic-names
         tag: ${{ github.event.ref }}
       
-  publish-windows:
-    name: Publish for windows
+  release-windows:
     runs-on: windows-latest
 
     steps:
@@ -68,8 +46,7 @@ jobs:
         asset_name: windows-celtic-names.exe
         tag: ${{ github.event.ref }}
   
-  publish-macos:
-    name: Publish for mac
+  release-macos:
     runs-on: macos-latest
     steps:
     - uses: hecrj/setup-rust-action@master

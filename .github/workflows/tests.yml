@@ -1,25 +1,10 @@
-name: Rust
+name: Tests
 
 on:
   push:
     branches: master
 
 jobs:
-  linter:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - uses: hecrj/setup-rust-action@master
-      with:
-        rust-version: stable
-
-    - name: Install rustfmt
-      run: rustup component add rustfmt
-    
-    - name: Run rustfmt lint
-      run: cargo fmt --all -- --check
-  
   windows-test:
     runs-on: windows-latest
     steps:
@@ -62,17 +47,4 @@ jobs:
     - name: Test project
       run: cargo test --verbose
   
-  clippy:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - uses: hecrj/setup-rust-action@master
-      with:
-        rust-version: stable
-
-    - name: Install clippy
-      run: rustup component add clippy
-    
-    - name: Run clippy
-      run: cargo clippy -- -D warnings
+  
