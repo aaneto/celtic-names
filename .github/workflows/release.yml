@@ -1,0 +1,60 @@
+name: Publish
+
+on:
+  create:
+    tags:
+
+jobs:
+  publish-ubuntu:
+    name: Publish for ubuntu
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      run: cargo build --release
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@master
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/celtic_names
+        asset_name: ubuntu-celtic-names
+        tag: ${{ github.event.ref }}
+      
+  publish-windows:
+    name: Publish for windows
+    runs-on: windows-latest
+    steps:
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      run: cargo build --release
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@master
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/celtic_names.exe
+        asset_name: windows-celtic-names.exe
+        tag: ${{ github.event.ref }}
+  
+  publish-macos:
+    name: Publish for mac
+    runs-on: macos-latest
+    steps:
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      run: cargo build --release
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@master
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/celtic_names
+        asset_name: macos-celtic-names
+        tag: ${{ github.event.ref }}
