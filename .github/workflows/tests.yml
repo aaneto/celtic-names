@@ -47,4 +47,20 @@ jobs:
     - name: Test project
       run: cargo test --verbose
   
+  nigthly-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: nightly
+  
+  legacy-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: hecrj/setup-rust-action@master
+      with:
+        rust-version: 1.34.0
+  
   
