@@ -5,7 +5,7 @@ authors = ["Adilson Neto <almeidneto@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-ureq = "0.10.0"
+ureq = "0.11.1"
 scraper = "0.11.0"
 rand = "0.7.2"
 clap = "2.33.0"
