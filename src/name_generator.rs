@@ -39,7 +39,7 @@ mod tests {
     fn test_custom_markov() {
         let mut boxed_markov = markov::Chain::new();
 
-        let name_generator: &mut NameGenerator = &mut boxed_markov as &mut NameGenerator;
+        let name_generator: &mut dyn NameGenerator = &mut boxed_markov as &mut dyn NameGenerator;
         name_generator.feed("aabdc".to_string());
 
         let mut markov = markov::Chain::new();
@@ -60,7 +60,7 @@ mod tests {
         let arbitrary_markov_order = 3;
         let mut boxed_markov = markov_chain::MarkovChain::new(arbitrary_markov_order);
 
-        let name_generator: &mut NameGenerator = &mut boxed_markov as &mut NameGenerator;
+        let name_generator: &mut dyn NameGenerator = &mut boxed_markov as &mut dyn NameGenerator;
         name_generator.feed("aabdc".to_string());
 
         let mut markov = markov_chain::MarkovChain::new(3);
