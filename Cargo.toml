@@ -7,7 +7,7 @@ edition = "2018"
 [dependencies]
 ureq = "0.10.0"
 scraper = "0.10.0"
-rand = "0.6.5"
+rand = "0.7.2"
 clap = "2.33.0"
 markov = "1.0.2"
 dont_disappear = "3.0.0"
