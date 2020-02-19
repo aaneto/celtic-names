@@ -20,7 +20,7 @@ impl NameGenerator for markov_chain::MarkovChain {
 
 impl NameGenerator for markov::Chain<char> {
     fn feed(&mut self, text: String) {
-        self.feed(text.chars().collect());
+        self.feed(text.chars().collect::<Vec<char>>());
     }
 
     fn generate(&self, name_size: usize) -> String {
