@@ -43,7 +43,7 @@ mod tests {
         name_generator.feed("aabdc".to_string());
 
         let mut markov = markov::Chain::new();
-        markov.feed("aabdc".chars().collect());
+        markov.feed("aabdc".chars().collect::<Vec<char>>());
 
         let name_size = 4;
 
