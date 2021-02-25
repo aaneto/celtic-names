@@ -1,8 +1,15 @@
 [package]
-name = "celtic_names"
-version = "0.1.5"
+name = "celtic-names"
+version = "1.0.0"
 authors = ["Adilson Neto <almeidneto@gmail.com>"]
 edition = "2018"
+
+readme = "README.md"
+keywords = [ "procedural" ]
+categories = [ "procedural-generation" ]
+description = "A celtic name generator"
+repository = "https://github.com/aaneto/celtic-names"
+license = "MIT"
 
 [dependencies]
 ureq = "2.0.2"
