@@ -103,7 +103,7 @@ impl std::fmt::Display for MarkovChain {
                 display_str.push_str(&format!("\t{} => {}\n", letter, freq));
             }
 
-            display_str.push_str("\n");
+            display_str.push('\n');
         }
 
         write!(f, "{}", display_str)
