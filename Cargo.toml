@@ -6,7 +6,7 @@ edition = "2018"
 
 readme = "README.md"
 keywords = [ "procedural" ]
-categories = [ "procedural-generation" ]
+categories = [ "game-development" ]
 description = "A celtic name generator"
 repository = "https://github.com/aaneto/celtic-names"
 license = "MIT"
