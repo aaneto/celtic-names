@@ -3,6 +3,7 @@
 
 use scraper::Html;
 use scraper::Selector;
+use std::time::Duration;
 
 ///
 /// doing some minor cleanup and collecting the names in
@@ -17,7 +18,11 @@ pub fn find_names_in_page() -> Option<Vec<String>> {
 /// parsing it into a string and returning it.
 fn fetch_page_text() -> Option<String> {
     let uri = "https://www.asnc.cam.ac.uk/personalnames/search.php?s_name=@";
-    let response = ureq::get(uri).timeout_connect(10_000).call();
+    let agent = ureq::AgentBuilder::new()
+        .timeout_read(Duration::from_secs(10))
+        .timeout_write(Duration::from_secs(10))
+        .build();
+    let response = agent.get(uri).call().ok()?;
 
     response.into_string().ok()
 }

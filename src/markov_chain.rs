@@ -83,7 +83,7 @@ impl MarkovChain {
         let mut rng = rand::thread_rng();
 
         let keys: Vec<&Word> = self.transitions.keys().collect();
-        let index: usize = rng.gen_range(0, keys.len());
+        let index: usize = rng.gen_range(0..keys.len());
 
         keys[index].data.iter().collect()
     }
