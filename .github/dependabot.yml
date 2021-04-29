@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: cargo
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "08:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: rand
+    versions:
+    - 0.8.3
+  - dependency-name: ureq
+    versions:
+    - 2.0.1
